@@ -1,0 +1,16 @@
+{
+    "name": "newiep/wanglipush",
+    "description": "网利宝消息推送SDK",
+    "authors": [
+        {
+            "name": "newiep",
+            "email": "haopeiwen123@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WangliPush\\" : "."
+        }
+    },
+    "license": "MIT"
+}
