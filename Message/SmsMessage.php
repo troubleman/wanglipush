@@ -25,7 +25,7 @@ class SmsMessage extends Message
     {
         $message = ($this->message . $this->rule_info->signature);
 
-        return $transcode ? iconv("UTF-8", "GB2312", $message) : $message;
+        return $transcode ? iconv("UTF-8", "GB2312//IGNORE", $message) : $message;
     }
 
 }
