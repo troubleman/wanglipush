@@ -4,7 +4,12 @@ namespace WangliPush\Gateway;
 use WangliPush\Message\Message;
 
 abstract class Gateway
-{   
+{
+    /**
+     * 接口响应结果
+     * @var
+     */
+    protected $resultNo;
 
     //发送短信
     abstract public function send(Message $message);
@@ -19,23 +24,11 @@ abstract class Gateway
     }
 
     /**
-     * 构造发送记录数据
-     * @param $receiverList
-     * @param $result
-     * @param $content
-     *
-     * @return array
+     * 获取接口响应信息
+     * @return mixed
      */
-    protected function buildSendRecords($receiverList, $result, $content)
+    public function getResultNo()
     {
-        return array_map(function($receiver) use ($result, $content) {
-            return array(
-                'devices' => $this->getName(),
-                'receiver'=> $receiver,
-                'content' => $content,
-                'result'  => $result
-            );
-
-        }, $receiverList);
+        return $this->resultNo;
     }
 }

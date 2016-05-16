@@ -72,14 +72,14 @@ class QxtGateway extends Gateway
         $receiverArr = $message->getReceiver();
         $options['mobiles'] = implode(',', $receiverArr);
 
-        $options['msg'] = $message->getMessage();
+        $options['msg'] = $message->getMessage(false);
 
         $response = Requests::post(self::SMS_URL, array(), $options);
+        $this->resultNo = intval($response->body);
 
-        $result = ($response->body == 100) ? 'success' : 'fail';
+        $result = ($this->resultNo == 100) ? 'success' : 'fail';
 
-
-        return $this->buildSendRecords($receiverArr, $result, $message->getMessage(false));
+        return $result;
     }
 
     /**
@@ -89,7 +89,6 @@ class QxtGateway extends Gateway
      */
     private function getMsgId()
     {
-
         return substr(uniqid(),-6);
     }
 }

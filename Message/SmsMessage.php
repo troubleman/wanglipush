@@ -17,15 +17,13 @@ class SmsMessage extends Message
     /**
      * 获取短信内容
      *
-     * @param bool $transcode
+     * @param bool $utf8
      *
      * @return string
      */
-    public function getMessage($transcode = true)
+    public function getMessage($utf8 = true)
     {
-        $message = ($this->message . $this->rule_info->signature);
-
-        return $transcode ? iconv("UTF-8", "GB2312//IGNORE", $message) : $message;
+        return $utf8 ? $this->message : iconv("UTF-8", "GB2312", $this->message);
     }
 
 }

@@ -1,9 +1,9 @@
 <?php
 namespace WangliPush\Gateway;
 
+use Log;
 use Requests;
 use WangliPush\Message\Message;
-use WangliPush\Message\SMSMessage;
 
 class YesGateway extends Gateway
 {
@@ -79,14 +79,20 @@ class YesGateway extends Gateway
 
         $options['DesNo'] = implode(',', $receiverArr);
 
-        $options['Msg'] = $message->getMessage(false);
+        $options['Msg'] = $message->getMessage();
 
-        $response = Requests::post(self::SMS_URL, array(), $options, array('timeout'=>10));
+        $response = Requests::post(
+            self::SMS_URL,
+            array(),
+            $options,
+            array('timeout' => 10)
+        );
 
-        $resNo = intval(strip_tags($response->body));
-        $result = ($resNo < 0) ? 'fail' : 'success';
+        $this->resultNo = intval(strip_tags($response->body));
 
-        return $this->buildSendRecords($receiverArr, $result, $message->getMessage(false));
+        $result = ($this->resultNo < 0) ? 'fail' : 'success';
+
+        return $result;
+
     }
-
 }

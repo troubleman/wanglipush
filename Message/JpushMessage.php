@@ -17,6 +17,12 @@ class JpushMessage extends Message
 
     /**
      * 落脚点
+     * @var string
+     */
+    protected $viewPos;
+
+    /**
+     * 落脚点
      *
      * @var array
      */
@@ -40,10 +46,18 @@ class JpushMessage extends Message
     }
 
     /**
+     * 设置极光推送落脚点
+     * @param $viewPos
+     */
+    public function setOpenPage($viewPos)
+    {
+        $this->viewPos = $viewPos;
+    }
+    /**
      * 获取极光推送落脚点
      */
     public function getOpenPage()
     {
-        return static::$EXTRAS_OPEN_PAGE[$this->rule_info->view_pos];
+        return static::$EXTRAS_OPEN_PAGE[$this->viewPos];
     }
 }

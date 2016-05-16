@@ -6,11 +6,6 @@ use WangliPush\Exception\Exception;
 class Receiver
 {
     /**
-     * 主键id
-     */
-    const USER_ID = 'id';
-
-    /**
      * 手机号
      */
     const USER_PHONE = 'phone';
@@ -35,42 +30,36 @@ class Receiver
     protected $aliasList = array();
 
     /**
-     * @param $id
-     * @param $type id的类型
-     * @param $userModel 用户信息模型
+     * Receiver constructor.
      *
-     * @throws Exception
+     * @param array $userList
      */
-    public function __construct($id, $type, $userModel)
+    public function __construct(Array $userList)
     {
-        //处理用户id
-        if (preg_match('/[^\d,]/', $id)) {
-            throw new Exception('param user_id is illegal');
-        }else{
-            $id = explode(',', $id);
+        if (!is_array($userList)) {
+            throw new \InvalidArgumentException('userList must be of the type array');
         }
+        $this->setNumber($userList);
+    }
 
-        switch ($type) {
-            case self::USER_ID:
+    /**
+     * 设置接收人
+     *
+     * @param $userList
+     *
+     * @return void
+     */
+    public function setNumber($userList)
+    {
+        foreach ($userList as $type => $list) {
+            if ($type === self::USER_PHONE) {
+                $this->numberList = array_merge($this->numberList, $list);
+            }
 
-                $receiverList = $userModel->getReceiverNumber($id);
-
-                $this->numberList = $receiverList['phone'];
-                $this->aliasList = $receiverList['user_id'];
-                break;
-
-            case self::USER_PHONE:
-                $this->numberList = $id;
-                break;
-
-            case self::ALIAS:
-                $this->aliasList = $id;
-                break;
-            default:
-                throw new Exception('user type not exists', 4403);
-                break;
+            if ($type === self::ALIAS) {
+                $this->aliasList = array_merge($this->aliasList, $list);
+            }
         }
-
     }
 
     /**
