@@ -23,7 +23,7 @@ class SmsMessage extends Message
      */
     public function getMessage($utf8 = true)
     {
-        return $utf8 ? $this->message : iconv("UTF-8", "GB2312", $this->message);
+        return $utf8 ? $this->message : iconv("UTF-8", "GB2312//TRANSLIT", $this->message);
     }
 
 }
